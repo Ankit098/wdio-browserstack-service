@@ -1,0 +1,29 @@
+trigger:
+- main
+
+pool:
+  name: Default
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- task: BrowserStackConfig@0
+  inputs:
+    BrowserStackServiceEndPoint: 'org2local'
+    browserstackLocal: true
+    bsLocalOptions: |
+      {
+        "localIdentifier": "org2local1"
+      }
+- task: Bash@3
+  inputs:
+    targetType: inline
+    script: 'sleep 20'
+
+- script: |
+    npm install
+  displayName: 'npm install and build'
+- task: BrowserStackStopLocal@0
